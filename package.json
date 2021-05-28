@@ -1,0 +1,63 @@
+{
+  "name": "openPaintDotNet",
+  "displayName": "open-PaintDotNet",
+  "description": "a extension to open an image in paintDotNet.",
+  "publisher": "Take-Me1010",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:openPaintDotNet.helloWorld"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "openPaintDotNet.openImage",
+        "title": "openPaintDotNet.openImage"
+      }
+    ],
+    "menus": {
+      "explorer/context": [{
+        "when": "!explorerResourceIsFolder",
+        "command": "openPaintDotNet.openImage",
+        "group": "3_open"
+      }]
+    },
+    "configuration": {
+      "title": "openPaintDotNet",
+      "properties": {
+        "openPaintDotNet.executor-path": {
+          "type": "string",
+          "default": "paintDotNet.exe",
+          "description": "executor path for paintDotNet. If your PATH does not includes the location of paintDotNet.exe, set its path/to/paintDotNet."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.27",
+    "@types/vscode": "^1.46.0",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "eslint": "^7.6.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.0.1",
+    "typescript": "^3.8.3",
+    "vscode-test": "^1.4.0"
+  }
+}
