@@ -1,44 +1,47 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import * as fs from "fs";
 import * as vscode from 'vscode';
-import * as child_process from 'child_process';
+import { Opener } from './opener';
 
-class OpenPaintDotNet {
-	private config: vscode.WorkspaceConfiguration;
-	private channel: vscode.OutputChannel;
-	private executor: string;
-
-	constructor() {
-		this.config = vscode.workspace.getConfiguration('openPaintDotNet');
-
-		this.channel = vscode.window.createOutputChannel("openPaintNet");
-	}
-
-	openImage(img: string) {
-		const executor: string|undefined = this.config.get('openPaintDotNet.executor-path');
-
-		if (executor === undefined) {
-			throw new Error("cannot find the path of paintDotNet.exe.");
-		}
-
-		const input: string = `${executor} ${img}`;
-		child_process.exec(input, (error, stdout, stderror) => {
-			this.channel.appendLine(stdout);
-			this.channel.appendLine(stderror);
-		});
-	}
-
-}
 
 export function activate(context: vscode.ExtensionContext) {
+	console.log('Congratulations, your extension "open-paint-dot-net" is now active!');
+	const opener = new Opener();
 
-	const openPaintDotNet = new OpenPaintDotNet();
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand('openPaintDotNet.openImage', (fileUri: vscode.Uri) => {
-			openPaintDotNet.openImage(fileUri.path);
-		})
-	);
+	vscode.commands.executeCommand('setContext', 'ext.acceptFolders', [
+		"image",
+		"images",
+		"resource",
+		"resources"
+	]);
+
+	const openImageDisposal = vscode.commands.registerCommand('open-paint-dot-net.openImage', (selection: vscode.Uri|undefined, selections: vscode.Uri[]) => {
+		// console.log("file: " + file);
+		// console.log("files: " + files);
+
+		// editor/titleから呼び出した時
+		if (selection === undefined) {
+			const editor = vscode.window.activeTextEditor;
+			if (editor === undefined) {
+				vscode.window.showErrorMessage("failed to get an active editor.");
+				return;
+			}
+			const targetUri = editor.document.uri;
+			opener.openImage(targetUri);
+		// exploreから呼び出した時
+		} else {
+			if (fs.statSync(selection.fsPath).isFile()) {
+				opener.openImages(selections);
+			} else {
+				opener.openPaintDotNet();
+			}
+		}
+
+	});
+
+	context.subscriptions.push(openImageDisposal);
 
 }
 

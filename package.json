@@ -1,9 +1,9 @@
 {
-  "name": "openPaintDotNet",
-  "displayName": "open-PaintDotNet",
+  "name": "open-paint-dot-net",
+  "displayName": "open-paint-dot-net",
   "description": "a extension to open an image in paintDotNet.",
   "publisher": "Take-Me1010",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.46.0"
   },
@@ -11,30 +11,35 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:openPaintDotNet.helloWorld"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "openPaintDotNet.openImage",
-        "title": "openPaintDotNet.openImage"
+        "command": "open-paint-dot-net.openImage",
+        "title": "Open Image (paintDotNet)"
       }
     ],
     "menus": {
       "explorer/context": [{
-        "when": "!explorerResourceIsFolder",
-        "command": "openPaintDotNet.openImage",
+        "when": "!explorerResourceIsFolder || resourceFilename == images",
+        "command": "open-paint-dot-net.openImage",
+        "group": "navigation"
+      }],
+      "editor/title": [{
+        "when": "true",
+        "command": "open-paint-dot-net.openImage",
         "group": "3_open"
       }]
     },
     "configuration": {
-      "title": "openPaintDotNet",
+      "title": "open-paint-dot-net",
       "properties": {
-        "openPaintDotNet.executor-path": {
-          "type": "string",
-          "default": "paintDotNet.exe",
-          "description": "executor path for paintDotNet. If your PATH does not includes the location of paintDotNet.exe, set its path/to/paintDotNet."
+        "open-paint-dot-net.executor-path": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "executor path for paintDotNet. set path/to/paintDotNet.exe. default to 'paintDotNet.exe'."
         }
       }
     }
