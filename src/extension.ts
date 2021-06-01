@@ -2,26 +2,20 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as fs from "fs";
 import * as vscode from 'vscode';
+import { Logger, DEBUG } from "./logger";
 import { Opener } from './opener';
 
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Congratulations, your extension "open-paint-dot-net" is now active!');
-	const opener = new Opener();
+	const extensionName = "file-opener";
+	const logger = new Logger(extensionName, DEBUG);
+	logger.debug(extensionName + " is Activated!");
+	const opener = new Opener(extensionName, logger);
 
-
-	vscode.commands.executeCommand('setContext', 'ext.acceptFolders', [
-		"image",
-		"images",
-		"resource",
-		"resources"
-	]);
-
-	const openImageDisposal = vscode.commands.registerCommand('open-paint-dot-net.openImage', (selection: vscode.Uri|undefined, selections: vscode.Uri[]) => {
-		// console.log("file: " + file);
-		// console.log("files: " + files);
-
-		// editor/titleから呼び出した時
+	const disposal = vscode.commands.registerCommand(`${extensionName}.open`,
+	(selection: vscode.Uri|undefined, selections: vscode.Uri[]) => {
+		logger.debug(`called ${extensionName}.open, args are ${selection}, ${selections}`);
+		// when called from editor/title
 		if (selection === undefined) {
 			const editor = vscode.window.activeTextEditor;
 			if (editor === undefined) {
@@ -29,19 +23,22 @@ export function activate(context: vscode.ExtensionContext) {
 				return;
 			}
 			const targetUri = editor.document.uri;
-			opener.openImage(targetUri);
-		// exploreから呼び出した時
+			opener.open(targetUri);
+
+		// when called from explore
 		} else {
 			if (fs.statSync(selection.fsPath).isFile()) {
-				opener.openImages(selections);
+				// 選択がファイルの時
+				opener.open(selection);
 			} else {
-				opener.openPaintDotNet();
+				// 選択がディレクトリの時
+
 			}
 		}
 
 	});
 
-	context.subscriptions.push(openImageDisposal);
+	context.subscriptions.push(disposal);
 
 }
 

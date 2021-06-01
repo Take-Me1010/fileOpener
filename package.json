@@ -1,8 +1,12 @@
 {
-  "name": "open-paint-dot-net",
-  "displayName": "open-paint-dot-net",
-  "description": "a extension to open an image in paintDotNet.",
+  "name": "file-opener",
+  "displayName": "file-opener",
+  "description": "an extension to open files with your favorite application.",
   "publisher": "Take-Me1010",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Take-Me1010/openPaintDotNet"
+  },
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.46.0"
@@ -17,29 +21,32 @@
   "contributes": {
     "commands": [
       {
-        "command": "open-paint-dot-net.openImage",
-        "title": "Open Image (paintDotNet)"
+        "command": "file-opener.open",
+        "title": "Open (by file-opener)"
       }
     ],
     "menus": {
       "explorer/context": [{
-        "when": "!explorerResourceIsFolder || resourceFilename == images",
-        "command": "open-paint-dot-net.openImage",
+        "when": "!explorerResourceIsFolder",
+        "command": "file-opener.open",
         "group": "navigation"
       }],
       "editor/title": [{
         "when": "true",
-        "command": "open-paint-dot-net.openImage",
+        "command": "file-opener.open",
         "group": "3_open"
       }]
     },
     "configuration": {
-      "title": "open-paint-dot-net",
+      "title": "file-opener",
       "properties": {
-        "open-paint-dot-net.executor-path": {
-          "type": ["string", "null"],
-          "default": null,
-          "description": "executor path for paintDotNet. set path/to/paintDotNet.exe. default to 'paintDotNet.exe'."
+        "file-opener.executorAliasDict": {
+          "type": ["object"],
+          "description": "settings for your own executors"
+        },
+        "file-opener.executorMapByExtension": {
+          "type": "object",
+          "description": "executor map by the extension of the file."
         }
       }
     }

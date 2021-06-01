@@ -1,26 +1,69 @@
-
-import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import * as child_process from 'child_process';
+import { Logger } from "./logger";
+
+interface Dict {
+    [key: string]: string
+}
+
+class ExtensionError implements Error {
+    public name: string = "ExtensionError";
+    constructor(public message: string) {
+
+    }
+
+    /**
+     * @overwrite
+     */
+    toString(): string {
+        return `[${this.name}] ${this.message}`;
+    }
+}
 
 export class Opener {
+    public name: string;
+    private logger: Logger;
     private channel: vscode.OutputChannel;
 
-    constructor() {
-        this.channel = vscode.window.createOutputChannel("open-paint-dot-net");
+    constructor(name: string, logger: Logger) {
+        this.name = name;
+        this.logger = logger;
+        this.channel = vscode.window.createOutputChannel(name);
     }
 
-    private logging(msg: any) {
-        console.log("[open-paint-dot-net]" + msg);
-    }
+    /**
+     * 
+     * @param ext 拡張子名。'.png'など。
+     * @returns executorを返す。undefinedは登録されていない拡張子の時。
+     */
+    private getExecutor(ext: string): string | undefined {
+        const config = vscode.workspace.getConfiguration('file-opener');
+        const executorAliasDict: Dict | undefined = config.get('executorAliasDict');
+        let executorMapByExtension: Dict | undefined | null = config.get('executorMapByExtension');
 
-    private getExecutor(): string {
-        const config = vscode.workspace.getConfiguration('open-paint-dot-net');
-        let executor: string | undefined | null = config.get('executor-path');
+        if (executorMapByExtension === undefined || executorMapByExtension === null) {
+            this.logger.warn(`${ext}: no executor found.`);
+            return undefined;
+        }
 
-        if (executor === undefined || executor === null) {
-            console.warn("found no executor. use \"paintDotNet.exe\" instead.");
-            executor = 'paintDotNet.exe';
+        let executor: string | undefined = executorMapByExtension[ext];
+        if (executor === undefined) {
+            this.logger.warn(`${ext}: no executor set.`);
+            return undefined;
+        }
+
+        if (executorAliasDict === undefined) {
+            this.logger.debug("no alias found.");
+        } else {
+            const alias: string | undefined = executorAliasDict[executor];
+            // if an alias of the executor exists, assign its value into executor.
+            if (alias) {
+                executor = alias;
+                this.logger.debug(`${ext}: alias found; ${alias}`);
+            } else {
+                this.logger.debug(`${ext}: no alias found.`);
+            }
         }
 
         return executor;
@@ -36,63 +79,39 @@ export class Opener {
        });
     }
 
+    /**
+     * open the given file corresponding to user settings
+     * @param file Uri to open
+     */
+    public open(file: vscode.Uri) {
+        const filePath: string = file.fsPath;
+        const ext: string = path.extname(filePath);
+        const executor: string | undefined = this.getExecutor(ext);
 
-    public openImage(img: vscode.Uri|string) {
-        const executor = this.getExecutor();
-        // console.log("[open-paint-dot-net] try to open image by " + executor);
-        const imagePath = (img instanceof vscode.Uri)? img.fsPath : img;
-        const command: string = executor + " " + imagePath;
+        const args: string[] = [
+            "\"" + filePath + "\""
+        ];
 
-        this.exec(command, 
-            // successHandler
-            (stdout) => {
-                console.log(`[open-paint-dot-net] Successfully opened image ${imagePath}`);
-                this.channel.appendLine(`Successfully open ${imagePath}`);
-            },
-            // failureHandler
-            (error, stdout, stderr) => {
-                console.error(`[open-paint-dot-net] failed to open image ${imagePath}`);
-                console.error('error: ' + error);
-                console.error('stdout: ' + stdout);
-                console.error('stderr: ' + stderr);
-                vscode.window.showErrorMessage(`failed to open ${imagePath}`);
-        });
-    }
+        const command = (executor)? executor + " " + args.join(" ") : args[0];
 
-    public openImages(images: vscode.Uri[]) {
-        const executor = this.getExecutor();
-        const imagePaths = images.map(file => {
-            return "\"" + file.fsPath + "\"";
-        });
-        const command = executor + " " + imagePaths.join(" ");
-        this.exec(command,
-            _ => {
-                this.logging("Successfully opened: " + imagePaths);
-            },
-            (error, stdout, stderr) => {
-                this.logging(error);
-                console.error(stdout);
-                console.error(stderr);
-                vscode.window.showErrorMessage("failed to open multiple images.");
-            }
-        );
-    }
+        const successHandler = (stdout: string) => {
+            const msg = `successfully opened ${filePath}`;
+            this.logger.info(msg);
+            this.channel.appendLine(msg);
+        };
 
-    public openPaintDotNet() {
-        const executor = this.getExecutor();
-        this.exec(executor,
-            (stdout) => {
-                this.logging(`Successfully open ${executor}`);
-                this.channel.appendLine(`Successfully open ${executor}`);
-            },
-            (error, stdout, stderr) => {
-                this.logging(`failed to open ${executor}`);
-                console.error('error: ' + error);
-                console.error('stdout: ' + stdout);
-                console.error('stderr: ' + stderr);
-                vscode.window.showErrorMessage(`failed to open ${executor}`);
-            }
-        );
+        const failureHandler = (error: child_process.ExecException, stdout: string, stderr: string) => {
+            const msg = `failed to open ${filePath}.`;
+            this.logger.error(msg);
+            this.logger.error(error);
+            this.logger.error("stdout: " + stdout);
+            this.logger.error("stderr: " + stderr);
+            this.channel.appendLine(msg + "See debug console.");
+
+            vscode.window.showErrorMessage(msg);
+        };
+
+        this.exec(command, successHandler, failureHandler);
     }
 
 }
