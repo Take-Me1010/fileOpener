@@ -24,12 +24,22 @@ class ExtensionError implements Error {
 export class Opener {
     public name: string;
     private logger: Logger;
+    private terminal: vscode.Terminal | undefined;
     private channel: vscode.OutputChannel;
+    private config: vscode.WorkspaceConfiguration | undefined;
 
     constructor(name: string, logger: Logger) {
         this.name = name;
         this.logger = logger;
+        
+        this.terminal = undefined;
+        this.config = undefined;
         this.channel = vscode.window.createOutputChannel(name);
+    }
+
+    private initialize() {
+        this.config = vscode.workspace.getConfiguration(this.name);
+        
     }
 
     /**
@@ -38,9 +48,8 @@ export class Opener {
      * @returns executorを返す。undefinedは登録されていない拡張子の時。
      */
     private getExecutor(ext: string): string | undefined {
-        const config = vscode.workspace.getConfiguration('file-opener');
-        const executorAliasDict: Dict | undefined = config.get('executorAliasDict');
-        let executorMapByExtension: Dict | undefined | null = config.get('executorMapByExtension');
+        const executorAliasDict: Dict | undefined = this.config?.get('executorAliasDict');
+        let executorMapByExtension: Dict | undefined | null = this.config?.get('executorMapByExtension');
 
         if (executorMapByExtension === undefined || executorMapByExtension === null) {
             this.logger.warn(`${ext}: no executor found.`);
@@ -69,7 +78,7 @@ export class Opener {
         return executor;
     }
 
-    private exec(command: string, successHandler: (stdout: string) => void, failureHandler: (error: child_process.ExecException, stdout: string, stderr: string) => void) {
+    private execInChildProcess(command: string, successHandler: (stdout: string) => void, failureHandler: (error: child_process.ExecException, stdout: string, stderr: string) => void) {
        child_process.exec(command, { encoding: 'utf-8' }, (error, stdout, stderr) => {
            if (error) {
                failureHandler(error, stdout, stderr);
@@ -79,11 +88,22 @@ export class Opener {
        });
     }
 
+    private execInTerminal(command: string) {
+        if (this.terminal === undefined) {
+            this.terminal = vscode.window.createTerminal(this.name);
+        }
+        this.terminal.show(false);
+        this.terminal.sendText(command);
+    }
+
     /**
      * open the given file corresponding to user settings
      * @param file Uri to open
      */
     public open(file: vscode.Uri) {
+        // update this.config
+        this.initialize();
+
         const filePath: string = file.fsPath;
         const ext: string = path.extname(filePath);
         const executor: string | undefined = this.getExecutor(ext);
@@ -94,24 +114,29 @@ export class Opener {
 
         const command = (executor)? executor + " " + args.join(" ") : args[0];
 
-        const successHandler = (stdout: string) => {
-            const msg = `successfully opened ${filePath}`;
-            this.logger.info(msg);
-            this.channel.appendLine(msg);
-        };
+        if (this.config?.get("executeInTerminal")) {
+            this.execInTerminal(command);
+        } else {
+            const successHandler = (stdout: string) => {
+                const msg = `successfully opened ${filePath}`;
+                this.logger.info(msg);
+                this.channel.appendLine(msg);
+            };
+    
+            const failureHandler = (error: child_process.ExecException, stdout: string, stderr: string) => {
+                const msg = `failed to open ${filePath}.`;
+                this.logger.error(msg);
+                this.logger.error(error);
+                this.logger.error("stdout: " + stdout);
+                this.logger.error("stderr: " + stderr);
+                this.channel.appendLine(msg + "See debug console.");
+    
+                vscode.window.showErrorMessage(msg);
+            };
+    
+            this.execInChildProcess(command, successHandler, failureHandler);
+        }
 
-        const failureHandler = (error: child_process.ExecException, stdout: string, stderr: string) => {
-            const msg = `failed to open ${filePath}.`;
-            this.logger.error(msg);
-            this.logger.error(error);
-            this.logger.error("stdout: " + stdout);
-            this.logger.error("stderr: " + stderr);
-            this.channel.appendLine(msg + "See debug console.");
-
-            vscode.window.showErrorMessage(msg);
-        };
-
-        this.exec(command, successHandler, failureHandler);
     }
 
 }

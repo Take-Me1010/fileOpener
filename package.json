@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/Take-Me1010/openPaintDotNet"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.46.0"
   },
@@ -23,6 +23,10 @@
       {
         "command": "file-opener.open",
         "title": "Open (by file-opener)"
+      },
+      {
+        "command": "file-opener.openFromSelection",
+        "title": "Open a file from selection"
       }
     ],
     "menus": {
@@ -47,6 +51,11 @@
         "file-opener.executorMapByExtension": {
           "type": "object",
           "description": "executor map by the extension of the file."
+        },
+        "file-opener.executeInTerminal": {
+          "type": "boolean",
+          "default": false,
+          "description": "if true, execute it in VSCode terminal. default to false."
         }
       }
     }

@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as fs from "fs";
+import * as path from "path";
 import * as vscode from 'vscode';
 import { Logger, DEBUG } from "./logger";
 import { Opener } from './opener';
@@ -12,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 	logger.debug(extensionName + " is Activated!");
 	const opener = new Opener(extensionName, logger);
 
-	const disposal = vscode.commands.registerCommand(`${extensionName}.open`,
+	const disposalOpen = vscode.commands.registerCommand(`${extensionName}.open`,
 	(selection: vscode.Uri|undefined, selections: vscode.Uri[]) => {
 		logger.debug(`called ${extensionName}.open, args are ${selection}, ${selections}`);
 		// when called from editor/title
@@ -38,7 +39,28 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
-	context.subscriptions.push(disposal);
+	context.subscriptions.push(disposalOpen);
+
+	const disposalOpenFromSelection = vscode.commands.registerCommand(`${extensionName}.openFromSelection`, () => {
+		const editor = vscode.window.activeTextEditor;
+		if (editor === undefined) {
+			vscode.window.showErrorMessage("failed to get an active editor.");
+			return;
+		}
+
+		const currentDocument = editor.document;
+		const selection = editor.selection;
+		
+		if (selection.isEmpty) {
+
+			return;
+		}
+
+		const targetPath = path.resolve(currentDocument.uri.fsPath, currentDocument.getText(selection));
+
+	});
+
+	// context.subscriptions.push(disposalOpenFromSelection);
 
 }
 
