@@ -46,7 +46,7 @@
       "properties": {
         "file-opener.executorAliasDict": {
           "type": ["object"],
-          "description": "settings for your own executors"
+          "description": "Aliases for your executors"
         },
         "file-opener.executorMapByExtension": {
           "type": "object",
