@@ -35,7 +35,7 @@ To open .jpg files with paintDotNet.exe, add the association in settings.json.
 
 ```settings.json
 "file-opener.executorMapByExtension": {
-  ".jpg": "\"C:\Program Files\paint.net\paintDotNet.exe\"",
+  ".jpg": "\"C:\\Program Files\\paint.net\\paintDotNet.exe\"",
 },
 ```
 
@@ -44,12 +44,14 @@ Note that you must enclose the executor path in "\\"" if its path includes a fol
 
 Right-click the file you want to open in explorer.
 ![explorer-menu](./image/explorerMenu.jpg)
+
 You can see "`Open (by file-opener)`" if this extension is successfully activated.
 Let's click it.
 
 Now I selected "explorerMenu.jpg" as I set ".jpg" in "`file-opener.executorMapByExtension`".
 It might take just a little while to open.
 ![open-paintDotNet](./image/open-example.jpg)
+
 Yes! I can open an image with paint.NET!
 
 You can open other files by setting `file-opener.executorMapByExtension` properly. To get more information, see the next section.
@@ -70,12 +72,12 @@ If you open .png file with path/to/executor, you set it like below:
 ```
 
 Note that you must enclose the path in \\" if it includes a blank.
-For example, let me assume that you want to use "C:\users\program files/application/app.exe" for its executor.
+For example, let me assume that you want to use "C:\\users\\program files\\application\\app.exe" for its executor.
 This path includes a blank in "program files" folder, so you enclose \\":
 
 ```settings.json
 "file-opener.executorMapByExtension": {
-  ".png": "\"C:\users\program files/application/app.exe\"",
+  ".png": "\"C:\\users\\program files\\application\\app.exe\"",
 },
 ```
 
