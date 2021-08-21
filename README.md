@@ -16,6 +16,8 @@ But **the application is required to be executed from command-line and support c
 **Tips**:
 There is no requirements to open by default application.
 Just right-click the file and click "open(by file-opener)."
+Or if you make it clear, you can do it by setting the executorMap `null`.
+
 
 For example, I want to use Paint.NET to open image files.
 First, check the path you install it. In my case, it is "C:\Program Files\paint.net\paintDotNet.exe".
@@ -25,7 +27,7 @@ Second, try to open a file in your terminal with it:
 C:\hoge>"C:\Program Files\paint.net\paintDotNet.exe" path/to/image.jpg
 ```
 
-If you cannot open path/to/image.jpg, you cannot execute the application with this extension.
+If you cannot open path/to/image.jpg, you cannot execute the application with this extension. Sorry.
 In case the image file is successfully opened, there is no problem with this extension!
 
 Now, let me assume that this extension accepts your favorite application.
@@ -100,7 +102,7 @@ I recommend using this setting like below:
 This means if you open ".png" files, this extension uses "C:\\Program Files\\paint.net\\paintDotNet.exe" instead of "paintDotNet" in `executorMapByExtension`.
 By using this setting, you can manage the paths of the applications in one place.
 
--- I'm not sure what the benefits are.
+-- You may think what the benefits are.
 OK, let me explain with a simple situation.
 
 Suppose that you want to open ".jpg", ".png", ".jpeg" and ".svg" with the same application (and its path is "path/to/application").
@@ -158,6 +160,10 @@ This extension usually uses child_process module provided by node.js.
 So you can't check its input and output.
 (If an error happens, you can check it in OUTPUT console in VSCode. But the console can show many garbled characters, especially Japanese, and so on.
 If this extension doesn't work well, try to turn this setting into true.
+
+## future works
+
+Set the application path by the regular expression.
 
 ## changelog
 
