@@ -37,6 +37,9 @@ export class Opener {
         this.channel = vscode.window.createOutputChannel(name);
     }
 
+    /**
+     * initialize some attributes when a command of this extension is called.
+     */
     private initialize() {
         this.config = vscode.workspace.getConfiguration(this.name);
         
