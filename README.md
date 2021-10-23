@@ -6,6 +6,7 @@
 
 - Open your file from explorer with an arbitrary application.
   - You can set the application to open a file by the extension of it.
+- Of course, you can also open the file in your default application.
 
 ## usage
 

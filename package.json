@@ -1,11 +1,12 @@
 {
   "name": "file-opener",
-  "displayName": "file-opener",
-  "description": "an extension to open files with your favorite application.",
+  "displayName": "File-Opener",
+  "description": "an extension to open files with your favorite application!",
   "publisher": "Take-Me1010",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Take-Me1010/openPaintDotNet"
+    "url": "https://github.com/Take-Me1010/fileOpener"
   },
   "version": "0.2.1",
   "engines": {
