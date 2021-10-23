@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
+  "icon": "./image/icon.png",
   "version": "0.3.0",
   "engines": {
     "vscode": "^1.46.0"

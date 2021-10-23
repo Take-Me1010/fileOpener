@@ -1,5 +1,7 @@
 # file-opener
 
+![icon.png](image/icon.png)
+
 **Open your file with your favorite application.**
 
 ## features
