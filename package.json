@@ -30,22 +30,28 @@
       }
     ],
     "menus": {
-      "explorer/context": [{
-        "when": "!explorerResourceIsFolder",
-        "command": "file-opener.open",
-        "group": "navigation"
-      }],
-      "editor/title": [{
-        "when": "true",
-        "command": "file-opener.open",
-        "group": "3_open"
-      }]
+      "explorer/context": [
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "file-opener.open",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "true",
+          "command": "file-opener.open",
+          "group": "3_open"
+        }
+      ]
     },
     "configuration": {
       "title": "file-opener",
       "properties": {
         "file-opener.executorAliasDict": {
-          "type": ["object"],
+          "type": [
+            "object"
+          ],
           "description": "Aliases for your executors"
         },
         "file-opener.executorMapByExtension": {

@@ -165,7 +165,8 @@ If this extension doesn't work well, try to turn this setting into true.
 
 ## future works
 
-Set the application path by the regular expression.
+- Set the application path by the regular expression
+- Open file from selection in editor
 
 ## changelog
 
