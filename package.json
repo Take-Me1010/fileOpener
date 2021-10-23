@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
-  "version": "0.2.1",
+  "version": "0.3.0",
   "engines": {
     "vscode": "^1.46.0"
   },
@@ -27,7 +27,7 @@
       },
       {
         "command": "file-opener.openFromSelection",
-        "title": "Open a file from selection"
+        "title": "Open from selection (by file-opener)"
       }
     ],
     "menus": {
@@ -43,6 +43,13 @@
           "when": "true",
           "command": "file-opener.open",
           "group": "3_open"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorHasSelection",
+          "command": "file-opener.openFromSelection",
+          "group": "navigation"
         }
       ]
     },

@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 0.3.0
+
+### added
+
+- open from selection
+- open url with default application
+- (internal) check whether the given local file exists.
+
 ## 0.2.0
 
 ### added

@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from "fs";
 import * as vscode from 'vscode';
 import * as child_process from 'child_process';
 import { Logger } from "./logger";
@@ -109,19 +110,41 @@ export class Opener {
 
         const filePath: string = file.fsPath;
         const ext: string = path.extname(filePath);
-        const executor: string | undefined = this.getExecutor(ext);
+        let filePathToOpen: string;
+        let executor: string | undefined = this.getExecutor(ext);
 
-        const args: string[] = [
-            "\"" + filePath + "\""
-        ];
+        
+        if (file.scheme.includes("http")) {
+            // if http or https
+            filePathToOpen = file.toString();
+            
+        } else if (fs.existsSync(file.fsPath)) {
+            // if local file
+            filePathToOpen = filePath;
+        } else {
+            this.logger.showErrorMessage(`The file ${filePath} does not exist or invalid.`);
+            return;
+        }
 
-        const command = (executor)? executor + " " + args.join(" ") : args[0];
+        // 値の置換
+        let foundFileNameInExecutor = false;
+        if (executor && executor.includes("$fileName")) {
+            foundFileNameInExecutor = true;
+            executor = executor.replace("$fileName", filePathToOpen);
+        } else if (executor === undefined) {
+            // TODO: Macならopenコマンド！！
+            executor = "start";
+        }
+
+        const command = (foundFileNameInExecutor)? executor : executor + " " + filePathToOpen ;
+
+        this.logger.debug(`Send command ${command}`);
 
         if (this.config?.get("executeInTerminal")) {
             this.execInTerminal(command);
         } else {
             const successHandler = (stdout: string) => {
-                const msg = `successfully opened ${filePath}`;
+                const msg = `successfully opened ${filePathToOpen}`;
                 this.logger.info(msg);
                 this.channel.appendLine(msg);
             };

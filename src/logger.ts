@@ -1,4 +1,6 @@
 
+import * as vscode from 'vscode';
+
 export const DEBUG = 0;
 export const LOG = 10;
 export const INFO = 20;
@@ -31,6 +33,8 @@ export interface LoggerInterface {
     warn: Logging;
     error: Logging;
     critical: Logging;
+    showInformationMessage: Logging
+    showErrorMessage: Logging
 }
 
 export class Logger implements LoggerInterface {
@@ -73,5 +77,13 @@ export class Logger implements LoggerInterface {
     
     public critical(msg: any) {
         console.error(`[${this.name}] [critical] ` + msg);
+    }
+
+    public showInformationMessage(msg: any) {
+        vscode.window.showInformationMessage(msg);
+    }
+
+    public showErrorMessage(msg: any) {
+        vscode.window.showErrorMessage(msg);
     }
 }
