@@ -4,15 +4,29 @@
 
 **Open your file with your favorite application.**
 
+**For Windows only now.** 
+If you are not Windows user, wait for this update for Mac and Linux.
+
 ## features
 
 - Open your file from explorer with an arbitrary application.
   - You can set the application to open a file by the extension of it.
 - Of course, you can also open the file in your default application.
 
+Just right click on a file you want to open in another application and select `Open`!
+
+![./image/feature_open_from_explorer.png](./image/feature_open_from_explorer.png)
+
+If no setting for its file exists, the file will be opened by default application.
+
+And this extension supports open from selection in editor!
+Just select a file path to open, and right click and `Open from selection`!
+
+![image/feature_open_from_selection.png](image/feature_open_from_selection.png)
+
 ## usage
 
-As above stated, you can open your file with your favorite application.
+You can open your file with your favorite application.
 But **the application is required to be executed from command-line and support command-line arguments**.
 
 
@@ -61,6 +75,9 @@ You can open other files by setting `file-opener.executorMapByExtension` properl
 
 
 ## setting
+
+There are some settings for conformability.
+Let's see them.
 
 ### `file-opener.executorMapByExtension`
 
@@ -168,6 +185,7 @@ If this extension doesn't work well, try to turn this setting into true.
 
 ## future works
 
+- For Mac and Linux
 - Set the application path by the regular expression
 - ~~Open file from selection in editor~~
   - implement version 0.3.0
@@ -176,3 +194,6 @@ If this extension doesn't work well, try to turn this setting into true.
 
 see [CHANGELOG.md](./CHANGELOG.md)
 
+## license
+
+MIT License. See [LICENSE](LICENSE)

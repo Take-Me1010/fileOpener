@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
-  "icon": "./image/icon.png",
+  "icon": "image/icon.png",
   "version": "0.3.0",
   "engines": {
     "vscode": "^1.46.0"
@@ -61,11 +61,11 @@
           "type": [
             "object"
           ],
-          "description": "Aliases for your executors"
+          "description": "Aliases for your executors. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
         },
         "file-opener.executorMapByExtension": {
           "type": "object",
-          "description": "executor map by the extension of the file."
+          "description": "executor map by the extension of the file. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
         },
         "file-opener.executeInTerminal": {
           "type": "boolean",
