@@ -1,10 +1,11 @@
 # file-opener
 
 ![icon.png](image/icon.png)
+[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/Take-Me1010.file-opener.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/Take-Me1010.file-opener.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/Take-Me1010.file-opener.svg)](https://marketplace.visualstudio.com/items?itemName=Take-Me1010.file-opener)
 
 **Open your file with your favorite application.**
 
-**For Windows only now.** 
+**For Windows only now.**
 If you are not Windows user, wait for this update for Mac and Linux.
 
 ## features
