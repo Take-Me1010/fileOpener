@@ -8,6 +8,8 @@
 **For Windows only now.**
 If you are not Windows user, wait for this update for Mac and Linux.
 
+For Japanese: 日本語版の [README_JP.md](README_JP.md)があります。またQiitaでも[記事](https://qiita.com/take_me/items/eae56d8bf1fe05db05a0)を書きました。
+
 ## features
 
 - Open your file from explorer with an arbitrary application.

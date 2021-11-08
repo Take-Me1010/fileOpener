@@ -1,6 +1,3 @@
----
-useQiita: true
----
 
 # file-opener
 
