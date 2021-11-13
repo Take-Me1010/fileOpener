@@ -132,8 +132,12 @@ export class Opener {
             foundFileNameInExecutor = true;
             executor = executor.replace("$fileName", filePathToOpen);
         } else if (executor === undefined) {
-            // TODO: Macならopenコマンド！！
-            executor = "start";
+            const defaultCommand: string | undefined = this.config?.get("commandToOpenDefaultApp");
+            if (defaultCommand === undefined) {
+                executor = "start";
+            } else {
+                executor = defaultCommand;
+            }
         }
 
         const command = (foundFileNameInExecutor)? executor : executor + " " + filePathToOpen ;

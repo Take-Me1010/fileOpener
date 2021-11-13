@@ -9,7 +9,7 @@
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
   "icon": "image/icon.png",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "engines": {
     "vscode": "^1.46.0"
   },
@@ -71,6 +71,11 @@
           "type": "boolean",
           "default": false,
           "description": "if true, execute it in VSCode terminal. default to false."
+        },
+        "file-opener.commandToOpenDefaultApp": {
+          "type": "string",
+          "default": "start",
+          "description": "The default command to open files by default application. `start` is default command for Windows. Also `open` is one for Linux. Set your default command depending on your environment."
         }
       }
     }

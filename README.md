@@ -5,8 +5,7 @@
 
 **Open your file with your favorite application.**
 
-**For Windows only now.**
-If you are not Windows user, wait for this update for Mac and Linux.
+While Windows users can use this extension without special setting, Linux/Mac users must set the config about default open command. See below [`file-opener.commandToOpenDefaultApp`](#file-openercommandtoopendefaultapp).
 
 For Japanese: 日本語版の [README_JP.md](README_JP.md)があります。またQiitaでも[記事](https://qiita.com/take_me/items/eae56d8bf1fe05db05a0)を書きました。
 
@@ -185,6 +184,14 @@ This extension usually uses child_process module provided by node.js.
 So you can't check its input and output.
 (If an error happens, you can check it in OUTPUT console in VSCode. But the console can show many garbled characters, especially Japanese, and so on.
 If this extension doesn't work well, try to turn this setting into true.
+
+### `file-opener.commandToOpenDefaultApp`
+
+defaults to "start".
+If you are Windows user, maybe there is no need to change this configuration.
+
+This configuration is essential **for Linux/Mac users**. **Set this configuration "open"** and you can use this extension comfortably!
+
 
 ## future works
 
