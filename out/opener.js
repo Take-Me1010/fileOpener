@@ -87,7 +87,7 @@ class Opener {
      * @param file Uri to open
      */
     open(file) {
-        var _a;
+        var _a, _b;
         // update this.config
         this.initialize();
         const filePath = file.fsPath;
@@ -113,12 +113,17 @@ class Opener {
             executor = executor.replace("$fileName", filePathToOpen);
         }
         else if (executor === undefined) {
-            // TODO: Macならopenコマンド！！
-            executor = "start";
+            const defaultCommand = (_a = this.config) === null || _a === void 0 ? void 0 : _a.get("commandToOpenDefaultApp");
+            if (defaultCommand === undefined) {
+                executor = "start";
+            }
+            else {
+                executor = defaultCommand;
+            }
         }
         const command = (foundFileNameInExecutor) ? executor : executor + " " + filePathToOpen;
         this.logger.debug(`Send command ${command}`);
-        if ((_a = this.config) === null || _a === void 0 ? void 0 : _a.get("executeInTerminal")) {
+        if ((_b = this.config) === null || _b === void 0 ? void 0 : _b.get("executeInTerminal")) {
             this.execInTerminal(command);
         }
         else {
