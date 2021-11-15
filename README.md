@@ -195,8 +195,9 @@ This configuration is essential **for Linux/Mac users**. **Set this configuratio
 
 ## future works
 
-- For Mac and Linux
 - Set the application path by the regular expression
+- ~~For Mac and Linux~~
+  - implement version 0.4.0
 - ~~Open file from selection in editor~~
   - implement version 0.3.0
 

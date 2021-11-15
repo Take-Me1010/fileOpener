@@ -4,8 +4,8 @@
 [![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/Take-Me1010.file-opener.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/Take-Me1010.file-opener.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/Take-Me1010.file-opener.svg)](https://marketplace.visualstudio.com/items?itemName=Take-Me1010.file-opener)
 
 VScodeからファイルを色んなアプリで開くための拡張機能です。
-今のところWindowsでしか動作を保証できないです。
-Mac/Linuxユーザーの方は更新を待つか、開発に強力してもらえたら嬉しいです。
+Linux/Macユーザーは[`file-opener.commandToOpenDefaultApp`](#file-openercommandtoopendefaultapp)を設定する必要があります！
+なおWindowsユーザは特に設定なしで快適に使えます。
 
 ## 特徴
 
@@ -113,3 +113,9 @@ trueにした場合、ターミナルでコマンドを実行して開きます�
 
 この拡張機能はデフォルトでは、child_processというモジュールを使って内部でコマンドを実行しています。その為うまく動作しないときには、エラーの原因が見えにくいです。そうした場合にtrueにすると、実際に実行されたコマンドを簡単に確認できるため用意されています。
 なお、通常はoutputにログが出力されていますが、こちらは日本語だと文字化けを容易に起こすため参考にならないです....
+
+### `file-opener.commandToOpenDefaultApp`
+
+デフォルト："start"
+Windowsユーザーは変更の必要は特にないです。
+Linux/Macユーザーは必須の設定で、この値を`"open"`にする必要があります。
