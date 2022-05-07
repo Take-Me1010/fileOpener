@@ -3,7 +3,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from 'vscode';
-import { Logger, DEBUG, WARN } from "./logger";
+import { Logger, DEBUG } from "./logger";
 import { Opener } from './opener';
 
 
