@@ -9,7 +9,7 @@
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
   "icon": "image/icon.png",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "engines": {
     "vscode": "^1.46.0"
   },
@@ -61,11 +61,17 @@
           "type": [
             "object"
           ],
-          "description": "Aliases for your executors. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
+          "additionalProperties": {
+            "type": "string"
+          },
+          "markdownDescription": "Aliases for your executors. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
         },
         "file-opener.executorMapByExtension": {
           "type": "object",
-          "description": "executor map by the extension of the file. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
+          "additionalProperties": {
+            "type": "string"
+          },
+          "markdownDescription": "executor map by the extension of the file. See [README.md](https://github.com/Take-Me1010/fileOpener/blob/main/README.md)"
         },
         "file-opener.executeInTerminal": {
           "type": "boolean",
@@ -75,7 +81,7 @@
         "file-opener.commandToOpenDefaultApp": {
           "type": "string",
           "default": "start",
-          "description": "The default command to open files by default application. `start` is default command for Windows. Also `open` is one for Linux. Set your default command depending on your environment."
+          "markdownDescription": "The default command to open files by default application. `start` is default command for Windows. Also `open` is one for Linux. Set your default command depending on your environment."
         }
       }
     }
