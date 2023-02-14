@@ -2,7 +2,8 @@
 
 ![icon.png](image/icon.png)
 
-[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/Take-Me1010.file-opener.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/Take-Me1010.file-opener.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/Take-Me1010.file-opener.svg)](https://marketplace.visualstudio.com/items?itemName=Take-Me1010.file-opener)
+[![Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/Take-Me1010.file-opener.svg) ![installs](https://vsmarketplacebadges.dev/installs/Take-Me1010.file-opener.svg) ![rating](https://vsmarketplacebadges.dev/rating/Take-Me1010.file-opener.svg)](https://marketplace.visualstudio.com/items?itemName=Take-Me1010.file-opener)
+
 
 **Open your file with your favorite application.**
 
