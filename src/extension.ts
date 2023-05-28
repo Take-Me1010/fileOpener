@@ -3,16 +3,15 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from 'vscode';
-import { Logger, DEBUG } from "./logger";
+import { Logger, LevelKeys, WARN } from "./logger";
 import { Opener } from './opener';
 
+const LEVEL = process.env['LOGGING'] as (undefined | LevelKeys) ?? WARN;
 
 export function activate(context: vscode.ExtensionContext) {
 	const extensionName = "file-opener";
-	// TODO: turn logger level (DEBUG) into WARN when publishing
-	const logger = new Logger(extensionName, DEBUG);
 
-	logger.debug(extensionName + " is Activated!");
+	const logger = new Logger(extensionName, LEVEL);
 
 	const opener = new Opener(extensionName, logger);
 

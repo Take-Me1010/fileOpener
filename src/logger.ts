@@ -18,7 +18,9 @@ export const LEVEL = {
     error: ERROR,
     critical: CRITICAL
 } as const;
-export type LEVEL = typeof LEVEL[keyof typeof LEVEL];
+export type LevelKeys = keyof typeof LEVEL;
+export type LevelNumbers = typeof LEVEL[LevelKeys];
+const LEVEL_KEYS = Object.keys(LEVEL);
 /**
  * a type for logging function
  */
@@ -37,13 +39,20 @@ export interface LoggerInterface {
     showErrorMessage: Logging
 }
 
+export function toLevelNumber(level: LevelKeys | LevelNumbers): LevelNumbers {
+    if (level in LEVEL_KEYS) {
+        return LEVEL[level as LevelKeys];
+    }
+    return level as LevelNumbers;
+}
+
 export class Logger implements LoggerInterface {
     private name: string;
-    private level: LEVEL;
+    private level: LevelNumbers;
 
-    constructor(name: string, level: LEVEL) {
+    constructor(name: string, level: LevelKeys | LevelNumbers) {
         this.name = name;
-        this.level = level;
+        this.level = toLevelNumber(level);
     }
 
     public debug(msg: any) {
