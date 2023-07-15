@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/Take-Me1010/fileOpener"
   },
+  "bugs": {
+    "url": "https://github.com/Take-Me1010/fileOpener/issues"
+  },
   "icon": "image/icon.png",
   "version": "0.4.2",
   "engines": {
