@@ -1,9 +1,7 @@
 # file-opener
 
 ![icon.png](image/icon.png)
-
-[![Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/Take-Me1010.file-opener.svg) ![installs](https://vsmarketplacebadges.dev/installs/Take-Me1010.file-opener.svg) ![rating](https://vsmarketplacebadges.dev/rating/Take-Me1010.file-opener.svg)](https://marketplace.visualstudio.com/items?itemName=Take-Me1010.file-opener)
-
+![version](https://img.shields.io/visual-studio-marketplace/v/Take-Me1010.file-opener) ![installs](https://img.shields.io/visual-studio-marketplace/d/Take-Me1010.file-opener) ![Rating](https://img.shields.io/visual-studio-marketplace/r/Take-Me1010.file-opener)
 
 **Open your file with your favorite application.**
 
