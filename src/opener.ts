@@ -26,7 +26,7 @@ export class Opener {
     public name: string;
     private logger: Logger;
     private terminal: vscode.Terminal | undefined;
-    private channel: vscode.OutputChannel;
+    
     private config: vscode.WorkspaceConfiguration | undefined;
 
     constructor(name: string, logger: Logger) {
@@ -35,7 +35,6 @@ export class Opener {
         
         this.terminal = undefined;
         this.config = undefined;
-        this.channel = vscode.window.createOutputChannel(name);
     }
 
     /**
@@ -43,7 +42,6 @@ export class Opener {
      */
     private initialize() {
         this.config = vscode.workspace.getConfiguration(this.name);
-        
     }
 
     /**
@@ -112,7 +110,6 @@ export class Opener {
         const ext: string = path.extname(filePath);
         let filePathToOpen: string;
         let executor: string | undefined = this.getExecutor(ext);
-
         
         if (file.scheme.includes("http")) {
             // if http or https
@@ -150,7 +147,6 @@ export class Opener {
             const successHandler = (stdout: string) => {
                 const msg = `successfully opened ${filePathToOpen}`;
                 this.logger.info(msg);
-                this.channel.appendLine(msg);
             };
     
             const failureHandler = (error: child_process.ExecException, stdout: string, stderr: string) => {
@@ -159,9 +155,7 @@ export class Opener {
                 this.logger.error(error);
                 this.logger.error("stdout: " + stdout);
                 this.logger.error("stderr: " + stderr);
-                this.channel.appendLine(msg + "See debug console.");
-    
-                vscode.window.showErrorMessage(msg);
+                this.logger.showErrorMessage(msg);
             };
     
             this.execInChildProcess(command, successHandler, failureHandler);
